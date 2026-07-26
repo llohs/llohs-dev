@@ -1,4 +1,3 @@
-
 const i18n = {
   pt: {
     'nav.about': 'SOBRE',
@@ -54,6 +53,7 @@ const i18n = {
     'stack.eyebrowRight': 'linguagens, ferramentas e infra',
     'stack.heading': 'As tecnologias por trás dos meus projetos.',
     'stack.desc': 'De linguagens a infraestrutura em nuvem — o que uso no dia a dia pra construir, testar e colocar no ar.',
+    'stack.legend': 'Nível de domínio autoavaliado em cada tecnologia (não é cobertura de uso nem certificação).',
     'stack.db': '▸ Banco de Dados',
     'cv.eyebrowLeft': '/* trajetória */',
     'cv.eyebrowRight': 'ADS',
@@ -83,7 +83,7 @@ const i18n = {
     'contact.blocked': 'Serviço de e-mail bloqueado pelo navegador (ex: Brave Shields) — me chama direto em lohane.mdev@gmail.com.',
     'contact.success': 'Mensagem enviada! Respondo em breve.',
     'contact.error': 'Falha no envio — verifica sua conexão ou me chama por e-mail.',
-    'footer.text': 'LOHANE % DEV FULL STACK — construído curiosidade.',
+    'footer.text': 'LOHANE % DEV FULL STACK — construído com curiosidade.',
     'terminal.whoami': 'estagiária de tecnologia · ADS',
     'terminal.foco': 'redes, hardening, OSINT e infraestrutura',
     'terminal.ferramentas': 'wireshark  nmap  tcpdump  cerberus.py',
@@ -142,6 +142,7 @@ const i18n = {
     'stack.eyebrowRight': 'languages, tools and infra',
     'stack.heading': 'The technologies behind my projects.',
     'stack.desc': 'From languages to cloud infrastructure — what I use day to day to build, test and ship.',
+    'stack.legend': 'Self-assessed proficiency level for each technology (not usage share or certification).',
     'stack.db': '▸ Databases',
     'cv.eyebrowLeft': '/* journey */',
     'cv.eyebrowRight': 'ADS',
@@ -717,7 +718,7 @@ function runHeroScramble() {
     setTimeout(() => heroH1.classList.remove('glitching'), 350);
   }, 850);
 }
-// dispara junto com o fim do boot screen (ou logo no load se o boot já foi visto nessa sessão)
+
 window.addEventListener('bootDone', runHeroScramble);
 
 // ---------- Glitch periódico sutil no título (a cada tanto tempo, discretamente) ----------
@@ -765,6 +766,10 @@ window.addEventListener('bootDone', runHeroScramble);
   const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
   if (!hasFinePointer || prefersReducedMotion) return;
 
+  let isPressing = false;
+  document.addEventListener('mousedown', () => { isPressing = true; });
+  document.addEventListener('mouseup', () => { isPressing = false; });
+
   document.querySelectorAll('.tilt-card').forEach(card => {
     // glow que segue o cursor
     const glow = document.createElement('div');
@@ -774,6 +779,7 @@ window.addEventListener('bootDone', runHeroScramble);
     const maxTilt = 7; // graus
 
     card.addEventListener('mousemove', (e) => {
+      if (isPressing) return;
       const rect = card.getBoundingClientRect();
       const px = (e.clientX - rect.left) / rect.width;  // 0..1
       const py = (e.clientY - rect.top) / rect.height;  // 0..1

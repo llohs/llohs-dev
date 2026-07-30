@@ -18,6 +18,8 @@
 
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <!-- Chart.js (radar de skills) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 
     <script>
       (function () {
@@ -117,6 +119,13 @@
         </div>
       </div>
     </nav>
+
+    <div class="now-ticker" id="nowTicker" aria-live="polite">
+      <span class="now-tag" data-i18n="cv.now">AGORA</span>
+      <span class="now-text" data-i18n="terminal.agora">
+        aprendendo Unity/C# (jogo de fazenda) + estudando pro Security+ (SecPlus BR)
+      </span>
+    </div>
 
     <!-- ============================== HERO ============================== -->
     <section class="hero" id="hero">
@@ -532,70 +541,12 @@
               Nível de domínio autoavaliado em cada tecnologia (não é cobertura
               de uso nem certificação).
             </p>
-            <div class="skill-bar-item">
-              <div class="skill-bar-top">
-                <span>▸ JavaScript</span><span class="skill-pct">82%</span>
-              </div>
-              <div class="skill-bar-track">
-                <div class="skill-bar-fill" style="width: 82%"></div>
-              </div>
-            </div>
-            <div class="skill-bar-item">
-              <div class="skill-bar-top">
-                <span>▸ React</span><span class="skill-pct">78%</span>
-              </div>
-              <div class="skill-bar-track">
-                <div class="skill-bar-fill" style="width: 78%"></div>
-              </div>
-            </div>
-            <div class="skill-bar-item">
-              <div class="skill-bar-top">
-                <span>▸ C#</span><span class="skill-pct">85%</span>
-              </div>
-              <div class="skill-bar-track">
-                <div class="skill-bar-fill" style="width: 85%"></div>
-              </div>
-            </div>
-            <div class="skill-bar-item">
-              <div class="skill-bar-top">
-                <span>▸ Node.js</span><span class="skill-pct">80%</span>
-              </div>
-              <div class="skill-bar-track">
-                <div class="skill-bar-fill" style="width: 80%"></div>
-              </div>
-            </div>
-            <div class="skill-bar-item">
-              <div class="skill-bar-top">
-                <span>▸ Python</span><span class="skill-pct">85%</span>
-              </div>
-              <div class="skill-bar-track">
-                <div class="skill-bar-fill" style="width: 85%"></div>
-              </div>
-            </div>
-            <div class="skill-bar-item">
-              <div class="skill-bar-top">
-                <span data-i18n="stack.db">▸ Banco de Dados</span
-                ><span class="skill-pct">80%</span>
-              </div>
-              <div class="skill-bar-track">
-                <div class="skill-bar-fill" style="width: 80%"></div>
-              </div>
-            </div>
-            <div class="skill-bar-item">
-              <div class="skill-bar-top">
-                <span>▸ ASP.NET Core</span><span class="skill-pct">76%</span>
-              </div>
-              <div class="skill-bar-track">
-                <div class="skill-bar-fill" style="width: 76%"></div>
-              </div>
-            </div>
-            <div class="skill-bar-item">
-              <div class="skill-bar-top">
-                <span>▸ Linux</span><span class="skill-pct">74%</span>
-              </div>
-              <div class="skill-bar-track">
-                <div class="skill-bar-fill" style="width: 74%"></div>
-              </div>
+            <div class="radar-wrap">
+              <canvas
+                id="skillRadar"
+                role="img"
+                aria-label="Gráfico radar do nível de domínio autoavaliado em cada tecnologia"
+              ></canvas>
             </div>
           </div>
 

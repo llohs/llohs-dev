@@ -86,7 +86,7 @@ const i18n = {
     'contact.blocked': 'Serviço de e-mail bloqueado pelo navegador (ex: Brave Shields) — me chama direto em lohane.mdev@gmail.com.',
     'contact.success': 'Mensagem enviada! Respondo em breve.',
     'contact.error': 'Falha no envio — verifica sua conexão ou me chama por e-mail.',
-    'footer.text': 'LOHANE % DEV FULL STACK — construído curiosidade.',
+    'footer.text': 'LOHANE % DEV FULL STACK — construído com curiosidade.',
     'terminal.whoami': 'estagiária de tecnologia · ADS',
     'terminal.foco': 'redes, hardening, OSINT e infraestrutura',
     'terminal.ferramentas': 'wireshark  nmap  tcpdump  cerberus.py',

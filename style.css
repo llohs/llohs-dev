@@ -55,7 +55,8 @@ body {
 }
 
 h1, h2, h3 {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Chakra Petch', 'Anton', sans-serif;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: -.5px;
   line-height: .97;
@@ -141,7 +142,8 @@ nav.scrolled {
 }
 
 .brand {
-  font-family: 'Anton';
+  font-family: 'Chakra Petch', 'Anton', sans-serif;
+  font-weight: 700;
   font-size: 19px;
   letter-spacing: -.5px;
   white-space: nowrap;
@@ -1084,7 +1086,8 @@ section .desc {
 }
 
 .about-stat-v {
-  font-family: 'Anton';
+  font-family: 'Chakra Petch', 'Anton', sans-serif;
+  font-weight: 700;
   font-size: 32px;
   color: var(--lime);
   line-height: 1;

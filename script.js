@@ -53,9 +53,11 @@ const i18n = {
     'stack.eyebrowRight': 'linguagens, ferramentas e infra',
     'stack.heading': 'As tecnologias por trás dos meus projetos.',
     'stack.desc': 'De linguagens a infraestrutura em nuvem — o que uso no dia a dia pra construir, testar e colocar no ar.',
-    'stack.legend': 'Nível de domínio autoavaliado em cada tecnologia (não é cobertura de uso nem certificação).',
     'stack.db': '▸ Banco de Dados',
-    'stack.dbLabel': 'Banco de Dados',
+    'stack.legendCaption': 'As barras indicam nível de confiança e prática com cada tecnologia — não uma métrica exata.',
+    'stack.levelAdvanced': 'Avançado',
+    'stack.levelSolid': 'Sólido',
+    'stack.levelComfortable': 'Confortável',
     'cv.eyebrowLeft': '/* trajetória */',
     'cv.eyebrowRight': 'ADS',
     'cv.heading': 'Minha jornada até aqui.',
@@ -84,11 +86,10 @@ const i18n = {
     'contact.blocked': 'Serviço de e-mail bloqueado pelo navegador (ex: Brave Shields) — me chama direto em lohane.mdev@gmail.com.',
     'contact.success': 'Mensagem enviada! Respondo em breve.',
     'contact.error': 'Falha no envio — verifica sua conexão ou me chama por e-mail.',
-    'footer.text': 'LOHANE % DEV FULL STACK — construído com curiosidade.',
+    'footer.text': 'LOHANE % DEV FULL STACK — construído curiosidade.',
     'terminal.whoami': 'estagiária de tecnologia · ADS',
     'terminal.foco': 'redes, hardening, OSINT e infraestrutura',
     'terminal.ferramentas': 'wireshark  nmap  tcpdump  cerberus.py',
-    'terminal.agora': 'aprendendo Unity/C# (jogo de fazenda) + estudando pro Security+ (SecPlus BR)',
   },
   en: {
     'nav.about': 'ABOUT',
@@ -144,9 +145,11 @@ const i18n = {
     'stack.eyebrowRight': 'languages, tools and infra',
     'stack.heading': 'The technologies behind my projects.',
     'stack.desc': 'From languages to cloud infrastructure — what I use day to day to build, test and ship.',
-    'stack.legend': 'Self-assessed proficiency level for each technology (not usage share or certification).',
     'stack.db': '▸ Databases',
-    'stack.dbLabel': 'Databases',
+    'stack.legendCaption': 'These bars show my confidence and hands-on practice level with each technology — not an exact metric.',
+    'stack.levelAdvanced': 'Advanced',
+    'stack.levelSolid': 'Solid',
+    'stack.levelComfortable': 'Comfortable',
     'cv.eyebrowLeft': '/* journey */',
     'cv.eyebrowRight': 'ADS',
     'cv.heading': 'My journey so far.',
@@ -180,7 +183,6 @@ const i18n = {
     'terminal.whoami': 'technology intern · Systems Dev @',
     'terminal.foco': 'networking, hardening, OSINT and infrastructure',
     'terminal.ferramentas': 'wireshark  nmap  tcpdump  cerberus.py',
-    'terminal.agora': 'learning Unity/C# (farming game) + studying for Security+ (SecPlus BR)',
   },
 };
 
@@ -219,8 +221,6 @@ function applyTranslations(lang) {
   document.querySelectorAll('.lang-label').forEach(el => {
     el.textContent = lang === 'pt' ? 'EN' : 'PT';
   });
-
-  updateRadarLabels(lang);
 }
 
 function setLanguage(lang) {
@@ -548,7 +548,6 @@ function getTerminalLines() {
     { prompt: 'lohane@lab:~$', text: ' whoami', after: t['terminal.whoami'] },
     { prompt: 'lohane@lab:~$', text: ' cat foco.txt', after: t['terminal.foco'] },
     { prompt: 'lohane@lab:~$', text: ' ls ferramentas/', after: t['terminal.ferramentas'] },
-    { prompt: 'lohane@lab:~$', text: ' cat now.txt', after: t['terminal.agora'] },
   ];
 }
 
@@ -725,7 +724,7 @@ function runHeroScramble() {
     setTimeout(() => heroH1.classList.remove('glitching'), 350);
   }, 850);
 }
-
+// dispara junto com o fim do boot screen (ou logo no load se o boot já foi visto nessa sessão)
 window.addEventListener('bootDone', runHeroScramble);
 
 // ---------- Glitch periódico sutil no título (a cada tanto tempo, discretamente) ----------
@@ -773,10 +772,6 @@ window.addEventListener('bootDone', runHeroScramble);
   const hasFinePointer = window.matchMedia('(pointer: fine)').matches;
   if (!hasFinePointer || prefersReducedMotion) return;
 
-  let isPressing = false;
-  document.addEventListener('mousedown', () => { isPressing = true; });
-  document.addEventListener('mouseup', () => { isPressing = false; });
-
   document.querySelectorAll('.tilt-card').forEach(card => {
     // glow que segue o cursor
     const glow = document.createElement('div');
@@ -786,7 +781,11 @@ window.addEventListener('bootDone', runHeroScramble);
     const maxTilt = 7; // graus
 
     card.addEventListener('mousemove', (e) => {
-      if (isPressing) return;
+      // Se o botão do mouse estiver pressionado, o usuário provavelmente está
+      // selecionando texto dentro do card — não aplicamos o tilt para não
+      // distorcer o layout durante a seleção.
+      if (e.buttons === 1) return;
+
       const rect = card.getBoundingClientRect();
       const px = (e.clientX - rect.left) / rect.width;  // 0..1
       const py = (e.clientY - rect.top) / rect.height;  // 0..1
@@ -800,6 +799,12 @@ window.addEventListener('bootDone', runHeroScramble);
     });
 
     card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+
+    // Se o usuário começar a selecionar texto (mousedown), removemos
+    // qualquer tilt residual imediatamente.
+    card.addEventListener('mousedown', () => {
       card.style.transform = '';
     });
   });
@@ -861,7 +866,7 @@ window.addEventListener('bootDone', runHeroScramble);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
 
   const commands = {
-    help: () => 'comandos: projetos · seguranca · curriculo · contato · skills · whoami · now · github · linkedin · tema · idioma · sudo hire lohane · clear',
+    help: () => 'comandos: projetos · seguranca · curriculo · contato · skills · whoami · github · linkedin · tema · idioma · sudo hire lohane · clear',
     projetos: () => { location.hash = '#projects'; close(); return 'navegando para #projects...'; },
     projects: () => commands.projetos(),
     seguranca: () => { location.hash = '#lab'; close(); return 'navegando para #lab...'; },
@@ -872,8 +877,6 @@ window.addEventListener('bootDone', runHeroScramble);
     contact: () => commands.contato(),
     skills: () => 'C · C# · Python · Java · React · Next.js · ASP.NET Core · Node.js · APIs REST · PostgreSQL · MySQL · AWS · Docker',
     whoami: () => 'lohane massão · full stack + cibersegurança',
-    now: () => i18n[currentLang]['terminal.agora'],
-    agora: () => commands.now(),
     github: () => { window.open('https://github.com/lohjs-0', '_blank'); return 'abrindo github.com/lohjs-0 ↗'; },
     linkedin: () => { window.open('https://linkedin.com/in/lohane-massao', '_blank'); return 'abrindo linkedin ↗'; },
     tema: () => { document.getElementById('themeToggle').click(); return 'tema alternado.'; },
@@ -907,66 +910,6 @@ window.addEventListener('bootDone', runHeroScramble);
   });
 })();
 
-// ---------- Radar chart de skills (Chart.js) ----------
-let skillRadarChart = null;
-
-function updateRadarLabels(lang) {
-  if (!skillRadarChart) return;
-  const dbLabel = (i18n[lang] && i18n[lang]['stack.dbLabel']) || 'Banco de Dados';
-  skillRadarChart.data.labels[5] = dbLabel;
-  skillRadarChart.update();
-}
-
-(function initSkillRadar() {
-  const canvas = document.getElementById('skillRadar');
-  if (!canvas || typeof Chart === 'undefined') return;
-
-  const dbLabel = (i18n[currentLang] && i18n[currentLang]['stack.dbLabel']) || 'Banco de Dados';
-
-  skillRadarChart = new Chart(canvas, {
-    type: 'radar',
-    data: {
-      labels: ['JavaScript', 'React', 'C#', 'Node.js', 'Python', dbLabel, 'ASP.NET Core', 'Linux'],
-      datasets: [{
-        label: '%',
-        data: [82, 78, 85, 80, 85, 80, 76, 74],
-        backgroundColor: 'rgba(16, 16, 16, 0.15)',
-        borderColor: '#101010',
-        borderWidth: 2,
-        pointBackgroundColor: '#101010',
-        pointRadius: 3,
-      }],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      animation: prefersReducedMotion ? false : { duration: 700 },
-      scales: {
-        r: {
-          angleLines: { color: 'rgba(16, 16, 16, 0.25)' },
-          grid: { color: 'rgba(16, 16, 16, 0.25)' },
-          pointLabels: {
-            color: '#101010',
-            font: { family: 'JetBrains Mono', size: 11, weight: '700' },
-          },
-          ticks: { display: false, backdropColor: 'transparent' },
-          suggestedMin: 0,
-          suggestedMax: 100,
-        },
-      },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => ` ${ctx.parsed.r}%`,
-          },
-        },
-      },
-    },
-  });
-})();
-
 // ---------- Easter egg no console ----------
 console.log('%c> acesso ao console detectado.', 'color:#c9f31d; font-family: monospace; font-size: 14px;');
 console.log('%c> curioso(a), hein? bora trabalhar juntos → lohane.mdev@gmail.com', 'color:#f7f7f5; font-family: monospace; font-size: 12px;');
-

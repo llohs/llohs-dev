@@ -303,6 +303,42 @@ nav.scrolled {
 }
 
 
+/* ---- ticker "AGORA" (o que estou fazendo essa temporada) ---- */
+.now-ticker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: 'JetBrains Mono';
+  font-size: 11px;
+  padding: 9px 40px;
+  background: var(--panel);
+  color: var(--cream);
+  border-bottom: 1px solid rgba(244, 240, 230, .1);
+}
+
+.now-ticker .now-tag {
+  color: var(--lime);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  white-space: nowrap;
+}
+
+.now-ticker .now-tag::before {
+  content: '● ';
+}
+
+.now-ticker .now-text {
+  opacity: .75;
+}
+
+@media (max-width: 900px) {
+  .now-ticker {
+    padding: 8px 20px;
+  }
+}
+
+
 /* ==========================================================================
    HERO
    ========================================================================== */
@@ -948,39 +984,14 @@ section .desc {
   max-width: 420px;
 }
 
-.skill-bar-item {
-  margin-bottom: 24px;
+.radar-wrap {
+  max-width: 420px;
+  margin: 0 auto;
 }
 
-.skill-bar-item:last-child {
-  margin-bottom: 0;
-}
-
-.skill-bar-top {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-
-.skill-pct {
-  opacity: .6;
-  font-weight: 400;
-  font-size: 13px;
-}
-
-.skill-bar-track {
-  height: 3px;
-  background: rgba(16, 16, 16, .18);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.skill-bar-fill {
-  height: 100%;
-  background: var(--ink);
-  border-radius: 2px;
+.radar-wrap canvas {
+  width: 100% !important;
+  height: auto !important;
 }
 
 .skill-icon-grid {
@@ -1577,3 +1588,4 @@ footer {
   color: var(--cream);
   opacity: .75;
 }
+
